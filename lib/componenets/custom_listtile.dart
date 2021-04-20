@@ -2,12 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphism/models/article_model.dart';
 import 'package:neumorphism/pages/articles_details.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:simple_url_preview/simple_url_preview.dart';
 
 
 Widget customListTile(Article article,BuildContext context){
+  openURL (Article article) async{
+        if(await canLaunch(article.url)){
+          await launch(article.url);
+        }
+        else{
+          throw('No Url Here');
+        }
+  }
+
   return InkWell(
     onTap: (){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ArticlePage(article : article)));
+          openURL(article);
     },
     child: Container(
       margin : EdgeInsets.all(12),
